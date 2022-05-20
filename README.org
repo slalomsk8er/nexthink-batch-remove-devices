@@ -1,0 +1,60 @@
+* Batch Remove Devices from Nexthink Engines
+- get a file with devices to be removed - one per line
+- in the finder, create a Category and a enum - "to be removed" and remove
+#+begin_src xml
+<?xml version="1.0" encoding="utf-8"?>
+<Category xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SyntaxVersion="2" DataModelVersion="13">
+  <Name>to be removed</Name>
+  <Type>source</Type>
+  <Extra>
+    <MinPrivileges>ANONYMOUS</MinPrivileges>
+  </Extra>
+  <Keywords>
+    <Keyword>
+      <Name>remove</Name>
+      <Uid>a70d740a-d9d1-432d-b265-4284ce5518a4</Uid>
+      <Rank>4294967295</Rank>
+      <Selector />
+      <AutotagRules>
+        <Conditions />
+        <LogicalExpression />
+      </AutotagRules>
+    </Keyword>
+  </Keywords>
+</Category>
+#+end_src
+- run nexthink-batch-remove-devices.py
+- in the finder create a investigiation to filter for the Category "to be removed"
+#+begin_src xml
+<?xml version="1.0" encoding="utf-8"?>
+<Investigation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" DataModelVersion="13" SyntaxVersion="3">
+  <Label>to be removed</Label>
+  <Object>source</Object>
+  <Platforms>
+    <Platform>windows</Platform>
+  </Platforms>
+  <Description />
+  <FieldList>
+    <string>name</string>
+    <string>platform</string>
+    <string>entity</string>
+    <string>computer_type</string>
+    <string>os_name</string>
+    <string>last_time</string>
+    <string>model</string>
+  </FieldList>
+  <CategoryList />
+  <AggregateList />
+  <ObjectConditionList>
+    <ObjectCondition IsTemplate="false">
+      <Object>source</Object>
+      <Field>tags</Field>
+      <Comparer>=</Comparer>
+      <Value>"to be removed:remove"</Value>
+    </ObjectCondition>
+  </ObjectConditionList>
+  <ObjectsConditionsExpression>1</ObjectsConditionsExpression>
+</Investigation>
+#+end_src>
+- run the investigation, CTRL + A, right click, edit and set storage to remove
+- enjoy the feed licenses nearly instantly and the gone devices tomorrow (if not seen in the last 24h)
